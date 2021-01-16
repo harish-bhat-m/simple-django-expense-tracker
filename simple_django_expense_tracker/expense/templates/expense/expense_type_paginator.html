@@ -1,0 +1,28 @@
+<div class="table-responsive">
+  <table border="0px">
+    <tr>
+      <th>Expense Type</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for expense_type in expense_types %}
+        <tr>
+          <td>{{ expense_type.expense_type_name }}</td>
+          <td> <a href="{% url 'update_expense_type' expense_type.id %}"><span>Edit</span></a></td>
+          <td> <a href="{% url 'delete_expense_type' expense_type.id %}"><span>Delete</span></a></td>
+        </tr>
+      {% endfor %}
+  </table>
+  {% if expense_types.has_previous %}
+     <a href="?page=1">&laquo; First</a>
+     <a href="?page={{ expense_types.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <span class="current">
+    Page {{ expense_types.number }} of {{ expense_types.paginator.num_pages }}.
+  </span>
+
+  {% if expense_types.has_next %}
+    <a href="?page={{ expense_types.next_page_number }}">Next</a>
+    <a href="?page={{ expense_types.paginator.num_pages }}">Last &raquo;</a>
+  {% endif %}

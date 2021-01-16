@@ -1,0 +1,39 @@
+{% extends "base_expense.html" %}
+{% block content %}
+	
+<div class="center-column">
+	<form method="POST" action="">
+		{% csrf_token %}
+		{% for message in messages %}
+			{% if message.tags == "error" %}
+				<div class="alert alert-danger" role="alert"> {{message.tag}} {{ message }} </div>
+			{% else %}
+				<div class="alert alert-success" role="alert"> {{ message }} </div>
+			{% endif %}
+
+        {% endfor %}
+				
+			<table> 
+				<tr>
+					<td><label>Expense Type:</label></td>
+					<td>{{ form.expense_type_name }}</td>
+				</tr>
+				<tr>
+					<td><label>Description:</label></td>
+					<td>{{ form.expense_name_description}}</td>
+				</tr>
+			</table>
+			{%  if action == "list" %}			
+			    <input class="btn btn-info" type="submit", value="Create Expense Type">
+			{% elif  action == "update" %}
+			    <input class="btn btn-info" type="submit", value="Update Expense Type">
+			{% elif  action == "delete" %}
+				<input class="btn btn-info" type="submit", value="Delete Expense Type" onclick="return confirm('Are you sure?')">
+			{% endif %}
+	
+			{%  if action == "list" %}	
+		        {% include "expense/expense_type_paginator.html" %}
+			{% endif %}
+		</form>
+</div>
+{% endblock %}

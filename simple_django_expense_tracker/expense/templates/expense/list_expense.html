@@ -1,0 +1,53 @@
+{% extends "base_expense.html" %}
+{% block content %}
+	
+<div class="center-column">
+	<form method="POST" action="">
+		{% csrf_token %}
+		{% for message in messages %}
+			{% if message.tags == "error" %}
+				<div class="alert alert-danger" role="alert"> {{message.tag}} {{ message }} </div>
+			{% else %}
+				<div class="alert alert-success" role="alert"> {{ message }} </div>
+			{% endif %}
+
+        {% endfor %}
+				
+			<table> 
+				<tr>
+					<td><label>Expense:</label></td>
+					<td>{{ form.expense_type }}</td>
+				</tr>
+				<tr>
+					<td><label>Date</label></td>
+					<td>{{ form.expense_date}}</td>	
+				</tr>
+				<tr>
+					<td><label>Amount</label></td>
+					<td>{{ form.expense_amount}}</td>	
+					{% if form.errors %}	
+						<div class="alert alert-danger" role="alert">
+							{{ form.errors.expense_amount }}
+						</div>
+					{% endif %}
+				</tr>
+				<tr>
+					<td><label>Description:</label></td>
+					<td>{{ form.expense_description}}</td>
+				</tr>
+			</table>
+			{%  if action == "list" %}			
+			    <input class="btn btn-info" type="submit", value="Record Expense">
+			{% elif  action == "update" %}
+			    <input class="btn btn-info" type="submit", value="Update Expense">
+			{% elif  action == "delete" %}
+				<input class="btn btn-info" type="submit", value="Delete Expense" onclick="return confirm('Are you sure?')">
+			{% endif %}
+	
+			
+		</form>
+		{%  if action == "list" %}	
+		        {% include "expense/expense_paginator.html" %}
+		{% endif %}
+</div>
+{% endblock %}
